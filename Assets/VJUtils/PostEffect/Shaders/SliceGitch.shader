@@ -44,26 +44,26 @@
 			float _Speed;
 			float _Threshold;
 
+			float _offSet = 0.3;
+
 			fixed4 frag(v2f i) : SV_Target
 			{
 				float2 uv = i.uv;
-				float2 blockSize = float2(_BlockWidth, _BlockHeight);
-				uv = floor(uv * blockSize) / blockSize;
-				float noise = simplexNoise(float3(uv.x, uv.y * 10.0, _Time.y));
-				float4 col = tex2D(_MainTex, i.uv);
-
-				float2 offset = (0.1, -0.2);
-
-				if (noise > _Threshold) {
-					float theta = simplexNoise(float3(uv.x, uv.y*_Fineness, _Time.w*_Speed));
-
-					col = tex2D(_MainTex, i.uv + float2(1.0*sin(theta), 1.0 / _BlockHeight));
-
-					//color shift
-					col.r = tex2D(_MainTex, i.uv + float2(1.0*sin(theta) + offset.x, 1.0 / _BlockHeight));
-					col.b = tex2D(_MainTex, i.uv + float2(1.0*sin(theta) + offset.y, 1.0 / _BlockHeight));
-
+				float4 col = float4(1.0.xxxx);
+				
+				_offSet = 0.3;
+				if (uv.x < _offSet) {
+					col = tex2D(_MainTex, float2(uv.y, 1.0 - (uv.x / _offSet)));
 				}
+				else if (uv.x > (1.0-_offSet)) {
+					//col = tex2D(_MainTex, i.uv);
+					//col.rgb = float3(1.0.xxx) - col.rgb;
+					col = tex2D(_MainTex, float2( uv.y, (uv.x - (1.0 - _offSet)) / _offSet));
+				}else {
+					col = tex2D(_MainTex, i.uv);
+				}
+				
+			
 
 				return col;
 			}

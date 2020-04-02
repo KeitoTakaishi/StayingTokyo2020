@@ -43,11 +43,11 @@ namespace PostEffect
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
-            material.SetFloat("_BlockWidth", _blockWidth);
-            material.SetFloat("_BlockHeight", _blockHeight);
-            material.SetFloat("_Threshold", _threshould);
-            material.SetFloat("_Finess", _finess);
-            material.SetFloat("_Speed", _speed);
+            //material.SetFloat("_BlockWidth", _blockWidth);
+            //material.SetFloat("_BlockHeight", _blockHeight);
+            //material.SetFloat("_Threshold", _threshould);
+            //material.SetFloat("_Finess", _finess);
+            //material.SetFloat("_Speed", _speed);
             Graphics.Blit(source, destination, material);
         }
     }

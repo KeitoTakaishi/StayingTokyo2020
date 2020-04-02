@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class dcganSceneManager : MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] dcgan_gpuparticle gpuparticle;
     bool camBG = false;
+
+    static int beat;
+    Vector2 beats;//prev, cur
     void Start()
     {
-        
+        beats = Vector2.zero;
     }
 
     void Update()
@@ -28,5 +32,16 @@ public class dcganSceneManager : MonoBehaviour
         {
             gpuparticle.calcFlag = !gpuparticle.calcFlag;
         }
+
+        beats.y = OscData.beat;
+        if(beats.x != beats.y)
+        {
+            beat = 1;
+        } else
+        {
+            beat = 0;
+        }
+        beats.x = beats.y;
+        Debug.Log(beat);
     }
 }

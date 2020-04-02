@@ -26,9 +26,7 @@
 			struct Input
 			{
 				float2 uv_MainTex;
-				//float2 uv_Tex
 				uint id;
-				float power;
 			};
 
 			struct appdata
@@ -46,6 +44,7 @@
 	#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
 			struct Params {
 				float3 pos;
+				float3 vel;
 				float2 life;
 			};
 			StructuredBuffer<Params> paramsBuffer;
@@ -77,7 +76,7 @@
 				//o.uv_MainTex = uv;
 				//o.uv_Tex = uv;
 				o.id = _instanceID;
-				o.power = paramsBuffer[_instanceID].life.x;
+				
 				
 				x = (x * 2.0 - n)/2.0;
 				y = (y * 2.0 - n)/2.0;
@@ -86,7 +85,7 @@
 				float scale = paramsBuffer[_instanceID].life.x;
 				vert.xyz *= scale;
 				//TDAbleton
-				vert.xyz *= float3(1.0, 1.0, 1.0 + whiteNoise3 * 50.0 * rnd(float2(x, y)));
+				//vert.xyz *= float3(1.0, 1.0, 1.0 + whiteNoise3 * 5.0 * rnd(float2(x, y)));
 				
 				//vert = mul(MultiRotationMatrix(float3(scale.xxx * 5.0)), vert);
 				float3 position = paramsBuffer[_instanceID].pos;
@@ -108,7 +107,7 @@
 				float x = fmod((float)IN.id, n);
 				float y = (float)IN.id / n;
 				float2 uv = float2(x / n, y / n);
-				float4 c = tex2D(_MainTex, uv) * _Color * IN.power;
+				float4 c = tex2D(_MainTex, uv) * _Color;
 				//float4 c = tex2D(_MainTex, uv) * _Color;
 				o.Albedo = c.rgb;
 				o.Metallic = _Metallic;

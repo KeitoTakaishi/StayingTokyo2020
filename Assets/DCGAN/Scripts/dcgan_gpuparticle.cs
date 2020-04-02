@@ -9,11 +9,13 @@ public class dcgan_gpuparticle : MonoBehaviour
     struct Parameters
     {
         Vector3 pos;
+        Vector3 vel;
         Vector2 life; 
 
-        public Parameters(Vector3 p, Vector2 l)
+        public Parameters(Vector3 p, Vector3 v, Vector3 l)
         {
             pos = p;
+            vel = v;
             life = l;
         }
     };
@@ -45,9 +47,6 @@ public class dcgan_gpuparticle : MonoBehaviour
         kernel = cs.FindKernel("init");
         cs.SetBuffer(kernel, "parames", parameterBuffer);
         cs.Dispatch(kernel, instancingCount / 64, 1, 1);
-
-        
-   
     }
 
     void Update()
@@ -63,7 +62,7 @@ public class dcgan_gpuparticle : MonoBehaviour
 
 
         //DOTween.To(() => piyo, (x) => piyo = x, tgt, time).SetEase(Ease.InOutSine)
-        //instancingMat.SetFloat("whiteNoise3", OscData.whiteNoise3);
+        instancingMat.SetFloat("whiteNoise3", OscData.beat);
         instancingMat.SetBuffer("paramsBuffer", parameterBuffer);
         Graphics.DrawMeshInstancedIndirect(srcMesh, 0, instancingMat, new Bounds(Vector3.zero, Vector3.one * 32.0f), argsBuffer);
     }
@@ -98,9 +97,10 @@ public class dcgan_gpuparticle : MonoBehaviour
 
 
             //var life = new Vector2(Random.Range(1.5f, 3.0f), Random.Range(1.5f, 3.0f));
-            var life = new Vector2(2.0f, 2.0f);
+            var vel = Vector3.zero;
+            var life = new Vector2(4.0f, 4.0f);
             
-            parameteres[i] = new Parameters(pos, life);
+            parameteres[i] = new Parameters(pos, vel, life);
         }
         parameterBuffer.SetData(parameteres);
     }
