@@ -44,6 +44,12 @@ public class SceneLoader : MonoBehaviour
             //SceneManager.LoadScene("SampleScene1");
             SceneManager.LoadScene(sceneName[1]);
 
+        } else if(Input.GetKeyDown(sceneKey[2]))
+        {
+            ///SceneManager.LoadScene("VaporWave");
+            //SceneManager.LoadScene("SampleScene1");
+            SceneManager.LoadScene(sceneName[2]);
+
         }
         /*
         else if(OscData.scene == 2 || Input.GetKeyDown(sceneKey[1]))

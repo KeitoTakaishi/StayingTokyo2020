@@ -41,10 +41,13 @@ public class Fluid : MonoBehaviour
 
     void Update()
     {
-        cs.SetFloat("flowVelocity", flowVelocity);
+        cs.SetFloat("flowVelocity", MidiReciever.knobs[5] * flowVelocity);
         cs.SetFloat("ang", ang);
-        cs.SetFloat("gamma", gamma);
-        cs.SetFloat("q", q);
+        
+        cs.SetFloat("gamma", MidiReciever.knobs[6] * 14.0f - 7.0f);
+        cs.SetFloat("q", MidiReciever.knobs[7] * 10.0f -5.0f);
+        //cs.SetFloat("gamma", gamma);
+        //cs.SetFloat("q", q);
         cs.SetTexture(kernel, "flowBuffer", buffer);
         cs.Dispatch(kernel, buffer.width / 32, buffer.height / 32, 1);
     }

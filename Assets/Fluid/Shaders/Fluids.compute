@@ -19,7 +19,7 @@ THREAD
 void Calc(uint3 id : SV_DispatchThreadID)
 {
 	//normalize
-	float2 uv = float2(id.xy) / (texSize.xy - float2(1.0, 1.0));
+	float2 uv = float2(id.xy) / (texSize.xy);
 	//float2 uv = float2(id.xy) / float2(255.0, 255.0);
 	//-1.0 ~ 1.0
 	uv = uv * 2.0 - float2(1.0, 1.0);
@@ -28,7 +28,7 @@ void Calc(uint3 id : SV_DispatchThreadID)
 	float2 vel = flowVelocity * float2(cos(ang),sin(ang));
 
 
-	float delta = 0.001;
+	float delta = 0.0001;
 	//source
 	if (uv.x == 0 && uv.y == 0) {
 		uv.x = delta;
@@ -42,7 +42,7 @@ void Calc(uint3 id : SV_DispatchThreadID)
 
 
 	//vortedx
-	delta = 0.001;
+	delta = 0.0001;
 	if (uv.x == 0 && uv.y == 0) {
 		uv.x = delta;
 		uv.y = delta;

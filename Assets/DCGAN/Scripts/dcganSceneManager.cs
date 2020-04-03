@@ -7,6 +7,7 @@ public class dcganSceneManager : MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] dcgan_gpuparticle gpuparticle;
+    [SerializeField] Material skyMat;
     bool camBG = false;
 
     static int beat;
@@ -23,6 +24,7 @@ public class dcganSceneManager : MonoBehaviour
             camBG = !camBG;
             if(camBG)
             {
+                RenderSettings.skybox = skyMat; 
                 cam.clearFlags = CameraClearFlags.Skybox;
             } else
             {

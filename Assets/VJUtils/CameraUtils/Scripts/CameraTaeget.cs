@@ -14,6 +14,7 @@ public class CameraTaeget : MonoBehaviour
     
     [SerializeField] float radius;
     [SerializeField] float speed;
+    [SerializeField] Vector3 offSet;
     Vector3 startPos;
     void Start()
     {
@@ -41,7 +42,8 @@ public class CameraTaeget : MonoBehaviour
             this.transform.position = new Vector3(
             radius * Mathf.Cos(speed * t * Mathf.Deg2Rad),
             0.0f,
-            radius * Mathf.Sin(speed * t * Mathf.Deg2Rad));
+            radius * Mathf.Sin(speed * t * Mathf.Deg2Rad))
+             + offSet + new Vector3(0.0f, offSet.y * Mathf.Cos(speed * t * Mathf.Deg2Rad), 0f);
         }
         
     }

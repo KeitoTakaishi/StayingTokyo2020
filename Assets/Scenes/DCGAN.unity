@@ -1169,3 +1169,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 785538494}
   gpuparticle: {fileID: 767658744}
+  skyMat: {fileID: 2100000, guid: 9eef1d605641aa74db928db6132116cd, type: 2}
