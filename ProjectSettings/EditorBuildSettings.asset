@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ALife.unity
     guid: b843f93df188a0e42ae156fd01700499
+  - enabled: 1
+    path: Assets/Scenes/Fluid.unity
+    guid: adc2b1e265eb36840a302346b451f80b
   m_configObjects: {}

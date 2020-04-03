@@ -80,19 +80,19 @@ namespace BoidsSimulationOnGPU
 
         void Update()
         {
-            /*
-            if(OscData.kick == 1.0f)
+            
+            if(OscData.beat % 2 == 0)
             {
                 MaxSpeed = KickMaxSpeed;
                 MaxSteerForce = KickMaxSteerForce;
                 SeparateWeight = KcikSeparateWeight;
-            }else if(OscData.kick == 0.0f)
+            }else
             {
                 MaxSpeed = 5.0f;
                 MaxSteerForce = 3.0f;
                 SeparateWeight = 3.0f;
             }
-            */
+            
 
             Simulation();
         }

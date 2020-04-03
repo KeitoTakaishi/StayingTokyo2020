@@ -82,6 +82,7 @@ public class ModifyMesh : MonoBehaviour
         } else
         {
             mesh.SetIndices(index.ToArray(), MeshTopology.LineStrip, 0);
+
         }
     }
 

@@ -1,0 +1,60 @@
+﻿#pragma kernel Init
+#pragma kernel Calc
+#define THREAD [numthreads(32,32,1)]
+#define PI 3.14159265359
+RWTexture2D<float4> flowBuffer;
+float4 texSize;
+float flowVelocity;
+float ang;
+float gamma;
+float q;
+
+THREAD
+void Init (uint3 id : SV_DispatchThreadID)
+{
+    flowBuffer[id.xy] = float4(0.0, 0.0, 0.0, 0.0);
+}
+
+THREAD
+void Calc(uint3 id : SV_DispatchThreadID)
+{
+	//normalize
+	float2 uv = float2(id.xy) / (texSize.xy - float2(1.0, 1.0));
+	//float2 uv = float2(id.xy) / float2(255.0, 255.0);
+	//-1.0 ~ 1.0
+	uv = uv * 2.0 - float2(1.0, 1.0);
+	float phi = flowVelocity * (uv.x * cos(ang) + uv.y * sin(ang));
+	float psi = flowVelocity * (uv.y * cos(ang) - uv.x * sin(ang));
+	float2 vel = flowVelocity * float2(cos(ang),sin(ang));
+
+
+	float delta = 0.001;
+	//source
+	if (uv.x == 0 && uv.y == 0) {
+		uv.x = delta;
+		uv.y = delta;
+	}
+	float r2 = pow(length(float2(uv)), 2.0);
+	phi += q * log(r2) / (4.0 * PI);
+	psi += q * atan2(uv.y, uv.x) / (2.0 * PI);
+	vel += q * uv / r2 / (2.0 * PI);
+	
+
+
+	//vortedx
+	delta = 0.001;
+	if (uv.x == 0 && uv.y == 0) {
+		uv.x = delta;
+		uv.y = delta;
+	}
+	
+	if (r2 < 0.1) {
+		r2 = 0.1;
+	}
+	phi += gamma * atan2(uv.y, uv.x) / (2.0 * PI);
+	psi -= gamma * log(r2) / (4.0 * PI);
+	float2 v = gamma * float2(uv.y, uv.x)/r2/(2.0 * PI);
+	vel += float2(-v.x, v.y);
+
+	flowBuffer[id.xy] = float4(vel.x, vel.y, 0.0, 1.0);
+}

@@ -1,0 +1,85 @@
+﻿#pragma kernel PosUpdate
+#include "../../VJUtils/ShaderUtils/NoiseUtils.cginc"
+
+Texture2D<float4> flowBuffer;//vel.x, vel.y, phi, psi
+float2 simulationSpace;
+float isSource;
+float time;
+struct Parameters {
+	float3 pos;
+	float2 life;
+};
+
+RWStructuredBuffer<Parameters> posBuffer;
+[numthreads(64,1,1)]
+void PosUpdate(uint3 id : SV_DispatchThreadID)
+{
+	
+	uint idx = id.x;
+	float dt = 0.016;
+	float3 p = posBuffer[idx].pos;
+	float2 life = posBuffer[idx].life;
+	float2 vel;
+	if (life.x < 0.0) {
+		life.x = life.y;
+		//reset pos
+		float sp = 0.5 * simulationSpace.x;
+
+		if (isSource == 0.0) {
+			float random = simulationSpace.y * rnd(float2(idx, 0.0));
+			p = float3(-sp, 0.0, random - sp);
+		}
+		else {
+			if (rnd(float2(time, idx)) < 0.5) {
+				float random = simulationSpace.y * rnd(float2(idx, 0.0));
+				p = float3(-sp, 0.0, random - sp);
+			}
+			else {
+				float rad = 50.0;
+				float randomX = rad * rnd(float2(idx + p.x, time)) - rad/2.0;
+				float randomY = simulationSpace.y * rnd(float2(idx + p.z, time));
+				randomY -= sp;
+				
+
+				//+noise
+				float minV = 10.0;
+				if (abs(randomX) < minV) {
+					if (randomX > 0.0) {
+						randomX = minV;
+					}
+					else {
+						randomX = -minV;
+					}
+				}
+
+				if (abs(randomY) < minV) {
+					if (randomY > 0.0) {
+						randomY = minV;
+					}
+					else {
+						randomY = -minV;
+					}
+				}
+
+				p = float3(randomX, 0.0, randomY - sp);
+			}
+		}
+	}
+	else {
+		life.x -= dt;
+		
+
+		//0.0 ~ 1.0
+		float2 uv = float2((p.x + simulationSpace.x / 2.0) / simulationSpace.x, (p.z + simulationSpace.y / 2.0) / simulationSpace.y);
+		uv *= 256.0;
+		vel = flowBuffer[uv].xy;
+		p += float3(vel.x, 0.0, vel.y);
+	}
+
+	
+	
+	
+	
+	posBuffer[idx].pos = p;
+	posBuffer[idx].life = life;
+}
