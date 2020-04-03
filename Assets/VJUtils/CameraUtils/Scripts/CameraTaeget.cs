@@ -43,7 +43,7 @@ public class CameraTaeget : MonoBehaviour
             radius * Mathf.Cos(speed * t * Mathf.Deg2Rad),
             0.0f,
             radius * Mathf.Sin(speed * t * Mathf.Deg2Rad))
-             + offSet + new Vector3(0.0f, offSet.y * Mathf.Cos(speed * t * Mathf.Deg2Rad), 0f);
+             + offSet;
         }
         
     }

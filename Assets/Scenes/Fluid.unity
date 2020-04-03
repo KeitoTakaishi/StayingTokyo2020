@@ -864,10 +864,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9250626e28fd3a4ca0c8a61406ec713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axisType: 0
+  axisType: 2
   radius: 10
   speed: 5
-  offSet: {x: -40, y: 30, z: 0}
+  offSet: {x: -40, y: 15, z: 0}
 --- !u!1 &1513401094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,8 +1026,8 @@ MonoBehaviour:
   isMidiIn: 0
   target: {fileID: 1104682366}
   moveTimeLength: 120
-  radius: 25
-  type: 5
+  radius: 5
+  type: 0
   isUp: 1
   isAuto: 1
 --- !u!114 &1866754700
